@@ -52,15 +52,15 @@ export const Hero: React.FC = () => {
   return (
     <section id="trang-chu" className="relative bg-gradient-to-b from-sky-50 via-white to-white overflow-hidden py-12 sm:py-20 lg:py-28">
       {/* Background Image - Chìm trong nền */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden select-none">
+      <div className="absolute top-0 inset-x-0 h-[420px] sm:h-full z-0 pointer-events-none overflow-hidden select-none">
         <img
           src={storefrontBg}
           alt="Minh Thương Phát Storefront Background"
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover object-center opacity-[0.32] brightness-[0.96] saturate-[0.85] select-none"
+          className="w-full h-full object-cover object-top sm:object-center opacity-[0.35] sm:opacity-[0.32] brightness-[0.96] saturate-[0.85] select-none"
         />
         {/* Soft gradient overlay to blend the image seamlessly and preserve text readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-50/35 via-white/55 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-sky-50/20 via-white/60 to-white" />
       </div>
 
       {/* Absolute decorative backdrops */}
