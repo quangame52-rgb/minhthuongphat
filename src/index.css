@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;700;900&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "Outfit", var(--font-sans);
+
+  /* Precise custom branding color codes aligned with high-end HVAC/electrical design */
+  --color-sky-55: #f0f9ff;
+  --color-sky-150: #bae6fd;
+  --color-sky-305: #7dd3fc;
+  --color-sky-502: #0284c7;
+  --color-sky-650: #0ea5e9;
+  --color-sky-655: #0284c7;
+  --color-sky-705: #0369a1;
+  --color-sky-750: #0369a1;
+  --color-sky-850: #0c4a6e;
+  --color-sky-905: #0f172a;
+  
+  --color-orange-450: #f97316;
+  --color-orange-550: #ea580c;
+  --color-orange-705: #c2410c;
+
+  --color-amber-150: #fde68a;
+  --color-amber-450: #f59e0b;
+
+  --color-emerald-450: #10b981;
+  --color-emerald-550: #059669;
+  --color-emerald-650: #047857;
+  --color-emerald-805: #064e3b;
+
+  --color-gray-55: #f9fafb;
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  105% { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Custom radial gradient backgrounds for premium visuals */
+.bg-radial-gradient {
+  background-image: radial-gradient(circle at center, rgba(3, 105, 161, 0.15) 0%, transparent 70%);
+}
+
+.bg-radial-gradient-slate {
+  background-image: radial-gradient(circle at center, rgba(15, 23, 42, 0.4) 0%, transparent 80%);
+}
+
+/* Clean scrollbar hiding utility */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
