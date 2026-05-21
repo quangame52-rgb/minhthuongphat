@@ -5,6 +5,7 @@ import { Brands } from './components/Brands';
 import { Services } from './components/Services';
 import { Troubleshooter } from './components/Troubleshooter';
 import { PriceEstimator } from './components/PriceEstimator';
+import { ShowcaseGallery } from './components/ShowcaseGallery';
 import { BookingForm } from './components/BookingForm';
 import { Testimonials } from './components/Testimonials';
 import { FAQ } from './components/FAQ';
@@ -61,6 +62,9 @@ function AppContent() {
 
       {/* Main Services detailed accordions */}
       <Services onSelectService={handleSelectService} />
+
+      {/* Real product stock and trade-in gallery */}
+      <ShowcaseGallery />
 
       {/* INTERACTIVE DIAGNOSIS & COST ESTIMATORS PORTAL */}
       <div className="py-16 sm:py-24 bg-sky-55/40 border-y border-sky-100/60 relative">

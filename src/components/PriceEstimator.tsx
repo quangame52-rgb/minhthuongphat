@@ -31,7 +31,15 @@ const PRICING_LIST: PricingItem[] = [
   // --- AIR COOLER ---
   { id: 'cool_1', name: 'Sửa bo mạch điều khiển quạt hơi nước', price: '250.000', unit: 'Mạch', category: 'air_cooler' },
   { id: 'cool_2', name: 'Thay thế bơm hút tuần hoàn nước quạt làm mát', price: '180.000', unit: 'Cái', category: 'air_cooler' },
-  { id: 'cool_3', name: 'Bảo dưỡng vệ sinh lốc giàn làm mát xưởng công nghiệp', price: '300.000', unit: 'Bộ', category: 'air_cooler' }
+  { id: 'cool_3', name: 'Bảo dưỡng vệ sinh lốc giàn làm mát xưởng công nghiệp', price: '300.000', unit: 'Bộ', category: 'air_cooler' },
+
+  // --- THU MUA MÁY CŨ GIÁ CAO ---
+  { id: 'buy_1', name: 'Thanh lý Máy lạnh treo tường cũ (gỉ sét/hoạt động)', price: '800.000', unit: 'Bộ', category: 'buyback' },
+  { id: 'buy_2', name: 'Thanh lý Máy lạnh Tủ đứng / Âm trần cũ hòng', price: '2.500.000', unit: 'Bộ', category: 'buyback' },
+  { id: 'buy_3', name: 'Thanh lý Tủ lạnh cũ gia đình (Inverter/Thường)', price: '600.000', unit: 'Cái', category: 'buyback' },
+  { id: 'buy_4', name: 'Thanh lý Tủ lạnh Side-By-Side cỡ lớn cũ hỏng dột', price: '1.800.000', unit: 'Cái', category: 'buyback' },
+  { id: 'buy_5', name: 'Thanh lý Tủ mát trưng bày siêu thị / Tủ đông nắp kính', price: '3.000.000', unit: 'Cái', category: 'buyback' },
+  { id: 'buy_6', name: 'Thanh lý Máy giặt cửa ngang / cửa trên gỉ sét', price: '500.000', unit: 'Cái', category: 'buyback' }
 ];
 
 interface PriceEstimatorProps {
@@ -40,14 +48,15 @@ interface PriceEstimatorProps {
 
 export const PriceEstimator: React.FC<PriceEstimatorProps> = ({ onAddEstimateToBooking }) => {
   const { info } = useBusiness();
-  const [activeTab, setActiveTab] = useState<'air_con' | 'refrigerator' | 'washing_machine' | 'air_cooler'>('air_con');
+  const [activeTab, setActiveTab] = useState<'air_con' | 'refrigerator' | 'washing_machine' | 'air_cooler' | 'buyback'>('air_con');
   const [selectedItems, setSelectedItems] = useState<Record<string, number>>({});
 
   const tabLabels = [
     { value: 'air_con', label: 'Máy Lạnh (Điều Hòa)' },
     { value: 'refrigerator', label: 'Tủ Lạnh / Tủ Đông' },
     { value: 'washing_machine', label: 'Máy Giặt / Máy Sấy' },
-    { value: 'air_cooler', label: 'Quạt Hơi / Máy Làm Mát' }
+    { value: 'air_cooler', label: 'Quạt Hơi / Máy Làm Mát' },
+    { value: 'buyback', label: 'Thu Mua Máy Cũ 💰' }
   ];
 
   const currentPricingItems = PRICING_LIST.filter((item) => item.category === activeTab);
@@ -89,18 +98,28 @@ export const PriceEstimator: React.FC<PriceEstimatorProps> = ({ onAddEstimateToB
 
   const selectedItemsDetails = PRICING_LIST.filter((item) => !!selectedItems[item.id]);
 
-  const totalCalculated = selectedItemsDetails.reduce((sum, item) => {
-    const qty = selectedItems[item.id] || 0;
-    const priceNum = getParsedPrice(item.price);
-    return sum + (priceNum * qty);
-  }, 0);
+  const totalCosts = selectedItemsDetails
+    .filter((item) => item.category !== 'buyback')
+    .reduce((sum, item) => sum + getParsedPrice(item.price) * (selectedItems[item.id] || 0), 0);
+
+  const totalCredits = selectedItemsDetails
+    .filter((item) => item.category === 'buyback')
+    .reduce((sum, item) => sum + getParsedPrice(item.price) * (selectedItems[item.id] || 0), 0);
+
+  const isRefund = totalCredits > totalCosts;
+  const netTotal = Math.abs(totalCosts - totalCredits);
 
   const handleExportEstimate = () => {
     if (selectedItemsDetails.length === 0) return;
     const descText = selectedItemsDetails
       .map((item) => `${item.name} (SL: ${selectedItems[item.id]})`)
       .join(', ');
-    onAddEstimateToBooking(descText, totalCalculated);
+    onAddEstimateToBooking(
+      isRefund 
+        ? `[Thu Mua / Đối Trừ Cũ Mới] ${descText}` 
+        : descText,
+      isRefund ? -netTotal : netTotal
+    );
     
     // Smooth scroll down to booking section
     const el = document.querySelector('#dat-lich-hen');
@@ -258,11 +277,26 @@ export const PriceEstimator: React.FC<PriceEstimatorProps> = ({ onAddEstimateToB
               </div>
 
               {/* Total output */}
-              <div className="relative border-t border-sky-800 pt-5 space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs sm:text-sm font-bold text-sky-200 uppercase">Tổng chi phí dự toán:</span>
-                  <span className="font-mono text-2xl sm:text-3xl font-black text-amber-450 tracking-tight">
-                    {totalCalculated.toLocaleString('vi-VN')} VNĐ
+              <div className="relative border-t border-sky-800 pt-5 space-y-3.5">
+                {totalCosts > 0 && (
+                  <div className="flex justify-between items-center text-xs text-sky-200">
+                    <span>Phí dịch vụ sửa chữa khác:</span>
+                    <span className="font-mono">{totalCosts.toLocaleString('vi-VN')}đ</span>
+                  </div>
+                )}
+                {totalCredits > 0 && (
+                  <div className="flex justify-between items-center text-xs text-emerald-450 font-bold">
+                    <span>Thanh toán máy cũ thu mua:</span>
+                    <span className="font-mono">+{totalCredits.toLocaleString('vi-VN')}đ</span>
+                  </div>
+                )}
+
+                <div className="flex justify-between items-center pt-1">
+                  <span className="text-xs sm:text-sm font-bold text-sky-200 uppercase">
+                    {isRefund ? 'MTP Thanh toán cho quý khách:' : 'Tổng chi phí thực thu thanh toán:'}
+                  </span>
+                  <span className={`font-mono text-2xl sm:text-3xl font-black ${isRefund ? 'text-emerald-400' : 'text-amber-450'} tracking-tight`}>
+                    {netTotal.toLocaleString('vi-VN')} VNĐ
                   </span>
                 </div>
 
@@ -273,7 +307,7 @@ export const PriceEstimator: React.FC<PriceEstimatorProps> = ({ onAddEstimateToB
                   className={`w-full py-3.5 rounded-xl font-sans font-black text-xs sm:text-sm transition-all duration-150 flex items-center justify-center gap-1 cursor-pointer active:scale-95 shadow-md ${selectedItemsDetails.length === 0 ? 'bg-sky-800 text-sky-400 cursor-not-allowed opacity-50' : 'bg-gradient-to-r from-orange-550 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-orange-500/10'}`}
                   id="btn-apply-estimate"
                 >
-                  ÁP DỤNG CHI PHÍ & ĐẶT LỊCH NGAY
+                  {isRefund ? 'ĐẶT LỊCH YÊU CẦU THU MUA' : 'ÁP DỤNG CHI PHÍ & ĐẶT LỊCH NGAY'}
                 </button>
 
                 <p className="text-center text-[10px] text-sky-350">

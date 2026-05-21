@@ -11,6 +11,7 @@ export const Header: React.FC = () => {
     { label: 'Trang Chủ', href: '#trang-chu' },
     { label: 'Dịch Vụ', href: '#dich-vu' },
     { label: 'Bảng Giá', href: '#bang-gia' },
+    { label: 'Thư Viện Ảnh', href: '#thu-vien-hoat-dong' },
     { label: 'Chẩn Đoán Sự Cố', href: '#chan-doan-loi' },
     { label: 'Đăng Ký Đặt Lịch', href: '#dat-lich-hen' },
     { label: 'Tại Sao Chọn MTP', href: '#tai-sao-chon' },

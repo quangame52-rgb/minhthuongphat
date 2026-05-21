@@ -24,7 +24,7 @@ export interface PricingItem {
   name: string;
   price: string;
   unit: string;
-  category: 'air_con' | 'refrigerator' | 'washing_machine' | 'air_cooler';
+  category: 'air_con' | 'refrigerator' | 'washing_machine' | 'air_cooler' | 'buyback';
 }
 
 export interface Testimonial {

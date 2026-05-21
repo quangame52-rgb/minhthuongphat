@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Snowflake, Refrigerator, Disc, Wrench, Building, Factory, ShieldCheck, Check, ChevronDown, ChevronUp, Clock, Tag } from 'lucide-react';
+import { Snowflake, Refrigerator, Disc, Wrench, Building, Factory, ShieldCheck, Check, ChevronDown, ChevronUp, Clock, Tag, Coins } from 'lucide-react';
 import { useBusiness } from '../context/BusinessContext';
 
 interface ServicesProps {
@@ -91,6 +91,26 @@ export const Services: React.FC<ServicesProps> = ({ onSelectService }) => {
       duration: 'Theo quy mô khảo sát',
       warranty: '6 - 24 tháng',
       target: 'Doanh nghiệp, Xí nghiệp, Cơ quan hành chính'
+    },
+    {
+      id: 'buyback',
+      title: 'Thu Mua & Trao Đổi Máy Cũ Giá Cao',
+      sub: 'Thu mua tủ lạnh, điều hòa, máy giặt cũ hỏng tận nơi',
+      icon: <Coins className="w-10 h-10 text-emerald-600" />,
+      tag: 'Giá tốt nhất',
+      tagColor: 'bg-emerald-100 text-emerald-900 border-emerald-250',
+      desc: 'Điện lạnh Minh Thương Phát hỗ trợ thu mua tận nhà giá cực cao các loại máy lạnh cũ hỏng, tủ lạnh Side-by-side, tủ đông, máy giặt. Đổi cũ lấy mới (Trade-In) trợ giá ưu đãi.',
+      checklist: [
+        'Thu mua máy lạnh cũ các loại (treo tường, tủ đứng, âm trần)',
+        'Thanh lý tủ lạnh cũ hỏng, tủ đông, tủ mát trưng bày nhà hàng',
+        'Thu mua máy giặt cửa ngang, cửa trên cũ hỏng giá cực hời',
+        'Dịch vụ tháo dỡ, vận chuyển tận nhà hoàn toàn miễn phí',
+        'Thanh lý trọn gói hệ thống điều hòa văn phòng, nhà xưởng',
+        'Thủ tục định giá nhanh gọn 24/7 qua cuộc gọi hoặc Zalo ảnh chụp'
+      ],
+      duration: 'Định giá trong 15 phút',
+      warranty: 'Thu mua tận nơi miễn phí',
+      target: 'Gia đình, Nhà hàng, Công ty, Khách sạn'
     }
   ];
 

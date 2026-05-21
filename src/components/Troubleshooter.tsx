@@ -377,6 +377,29 @@ export const Troubleshooter: React.FC<TroubleshooterProps> = ({ onSuggestService
                 </div>
               </div>
 
+              {/* Trade-in banner in troubleshooter */}
+              <div className="bg-emerald-50/70 rounded-xl p-4 border border-emerald-150 flex items-center justify-between gap-4 text-xs">
+                <div className="space-y-1">
+                  <p className="font-extrabold text-emerald-900 flex items-center gap-1">
+                    💡 Thiết bị đã quá cũ hoặc phí sửa chữa quá đắt đỏ?
+                  </p>
+                  <p className="text-gray-600 leading-normal">
+                    Chúng tôi sẵn sàng <strong>thu mua lại máy cũ hỏng giá tốt nhất</strong> và hỗ trợ đổi các bù tiền lên đời máy mới trợ giá trực tiếp cực kỳ tiết kiệm!
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const el = document.querySelector('#thu-vien-hoat-dong');
+                    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  }}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1.5 px-3 rounded-lg whitespace-nowrap active:scale-95 transition-all text-[11px]"
+                  id="btn-troubleshoot-trade-in"
+                >
+                  Tìm hiểu Trade-In &rarr;
+                </button>
+              </div>
+
               {/* Final Actions buttons selection */}
               <div className="flex flex-col sm:flex-row gap-3 pt-3">
                 <button
